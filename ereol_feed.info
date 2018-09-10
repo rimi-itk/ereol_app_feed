@@ -1,0 +1,6 @@
+name = eReolen feed
+description = Feeds
+core = 7.x
+package = eReolen
+version = 7.x-1.0
+dependencies[] = xautoload

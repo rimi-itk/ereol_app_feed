@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ */
+
+use Drupal\ereol_feed\Helper\FrontPageHelper;
+
+/**
+ * Implements hook_menu().
+ */
+function ereol_feed_menu() {
+  $items['ereol_feed/frontpage'] = [
+    'page callback' => 'ereol_feed_frontpage_endpoint',
+    'access arguments' => ['access content'],
+  ];
+
+  return $items;
+}
+
+/**
+ * Frontpage feed.
+ */
+function ereol_feed_frontpage_endpoint() {
+  $helper = new FrontPageHelper();
+  $data = $helper->getData();
+
+  drupal_json_output($data);
+}
