@@ -2,9 +2,11 @@
 
 /**
  * @file
+ * Module file for ereol_feed.
  */
 
-use Drupal\ereol_feed\Helper\FrontPageHelper;
+use Drupal\ereol_feed\Controller\FrontpageController;
+use Drupal\ereol_feed\Controller\ParagraphsController;
 
 /**
  * Implements hook_menu().
@@ -15,15 +17,27 @@ function ereol_feed_menu() {
     'access arguments' => ['access content'],
   ];
 
+  $items['ereol_feed/paragraphs/%'] = [
+    'page callback' => 'ereol_feed_paragraphs_endpoint',
+    'page arguments' => [2],
+    'access arguments' => ['access content'],
+  ];
+
   return $items;
 }
 
 /**
- * Frontpage feed.
+ * Frontpage endpoint.
  */
 function ereol_feed_frontpage_endpoint() {
-  $helper = new FrontPageHelper();
-  $data = $helper->getData();
+  $controller = new FrontpageController();
+  $controller->index();
+}
 
-  drupal_json_output($data);
+/**
+ * Paragraphs endpoint.
+ */
+function ereol_feed_paragraphs_endpoint($type) {
+  $controller = new ParagraphsController();
+  $controller->index($type);
 }
