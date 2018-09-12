@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ereol_feed\Controller;
+namespace Drupal\ereol_app_feed\Controller;
 
 /**
  * Abstract controller.

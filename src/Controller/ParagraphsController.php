@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\ereol_feed\Controller;
+namespace Drupal\ereol_app_feed\Controller;
 
-use Drupal\ereol_feed\Helper\ParagraphHelper;
+use Drupal\ereol_app_feed\Helper\ParagraphHelper;
 
 /**
  * Paragraphs controller.

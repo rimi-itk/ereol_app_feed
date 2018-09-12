@@ -2,7 +2,7 @@
 <ruleset name="loop">
   <description>PHP CodeSniffer configuration</description>
 
-  <file>ereol_feed.module</file>
+  <file>ereol_app_feed.module</file>
   <file>src/</file>
 
   <!-- Show progress -->
