@@ -3,5 +3,9 @@
     "require-dev": {
         "drupal/coder": "^8.2",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4"
+    },
+    "scripts": {
+        "check-coding-standards": "vendor/bin/phpcs --standard=phpcs.xml.dist",
+        "apply-coding-standards": "vendor/bin/phpcbf --standard=phpcs.xml.dist"
     }
 }

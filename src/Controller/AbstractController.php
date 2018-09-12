@@ -10,7 +10,7 @@ class AbstractController {
   /**
    * Get a query parameter.
    */
-  protected function getQueryParameter($name) {
+  protected function getQueryParameter($name, $defaultValue = NULL) {
     $query_parameters = drupal_get_query_parameters();
     $value = isset($query_parameters[$name]) ? $query_parameters[$name] : NULL;
 
@@ -25,7 +25,7 @@ class AbstractController {
       $value = array_unique(array_map('intval', $value));
     }
 
-    return $value;
+    return !empty($value) ? $value : $defaultValue;
   }
 
 }

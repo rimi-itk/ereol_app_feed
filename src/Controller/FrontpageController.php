@@ -13,11 +13,8 @@ class FrontpageController extends AbstractController {
    * Render frontpage data.
    */
   public function index() {
-    $nids = $this->getQueryParameter('nids');
-
     $helper = new FrontPageHelper();
-    $ids = $helper->getParagraphIds($nids);
-    $data = $helper->getFrontpageData($ids);
+    $data = $helper->getFrontpageData();
 
     drupal_json_output($data);
   }
