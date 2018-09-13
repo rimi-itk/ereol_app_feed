@@ -315,8 +315,7 @@ class ParagraphHelper {
       'guid' => $node->nid,
       'type' => 'theme',
       'title' => $node->title,
-      // @TODO: How do we get value of "view"?
-      'view' => 'image',
+      'view' => $this->nodeHelper->getFieldValue($node, 'field_image_teaser', 'value') ? 'image' : 'covers',
       'image' => $this->nodeHelper->getImage($node->field_ding_news_list_image),
       'body' => $this->nodeHelper->getBody($node),
       'identifiers' => $this->nodeHelper->getTingIdentifiers($node, 'field_ding_news_materials'),
@@ -332,8 +331,7 @@ class ParagraphHelper {
       'type' => $this->getType($paragraph),
       'title' => $this->nodeHelper->getFieldValue($paragraph, 'field_link', 'title'),
       'url' => $this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url'),
-      // @TODO Color with or without '#'?
-      'color' => $this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb'),
+      'color' => ltrim('#', $this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb')),
       'subtitle' => self::VALUE_NONE,
       'button_text' => self::VALUE_NONE,
     ];
@@ -417,8 +415,7 @@ class ParagraphHelper {
         'guid' => $this->getGuid($subParagraph),
         'type' => $this->getType($subParagraph),
         'title' => $video->title,
-        // @TODO: "Image" (capital i)?
-        'Image' => self::VALUE_NONE,
+        'image' => self::VALUE_NONE,
         'source' => self::VALUE_NONE,
         'url' => $this->nodeHelper->getUrl($this->nodeHelper->getFieldValue($video, 'field_video', 'uri')),
       ];
@@ -431,21 +428,27 @@ class ParagraphHelper {
    * Get audio data.
    */
   private function getAudio(\ParagraphsItemEntity $paragraph) {
-    // Wrap all videos in a fake list element.
     $identifier = $this->nodeHelper->getTingIdentifierFromUrl(
       $this->nodeHelper->getTextFieldValue($paragraph, 'field_preview_material')
     );
-    // @TODO: Load ting object from identifier.
-    $ting = NULL;
     if (NULL !== $identifier) {
-      return [
-        'guid' => $this->getGuid($paragraph),
-        'type' => $this->getType($paragraph),
-        'identifier' => $identifier,
-        'title' => NULL,
-        'url' => NULL,
-        'metadata' => NULL,
-      ];
+      $ting = $this->nodeHelper->loadTingObject($identifier);
+      if ($ting) {
+        $relations = $ting->getRelations();
+        $relation = reset($relations);
+        return [
+          'guid' => $this->getGuid($paragraph),
+          'type' => $this->getType($paragraph),
+          'identifier' => $identifier,
+          'title' => $ting->getTitle(),
+          'url' => $relation ? $relation->getURI() : self::VALUE_NONE,
+          'metadata' => [
+            'length' => self::VALUE_NONE,
+            'filesize' => self::VALUE_NONE,
+            'format' => self::VALUE_NONE,
+          ],
+        ];
+      }
     }
 
     return NULL;

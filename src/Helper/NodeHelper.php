@@ -90,6 +90,33 @@ class NodeHelper {
   }
 
   /**
+   * Load a ting object by identifier.
+   *
+   * @param string $identifier
+   *   Ting identifier.
+   *
+   * @return mixed
+   *   The ting object if any.
+   */
+  public function loadTingObject($identifier) {
+    if (!empty($identifier)) {
+      $entity_type = 'ting_object';
+      $query = new EntityFieldQuery();
+      $query
+        ->entityCondition('entity_type', $entity_type)
+        ->propertyCondition('ding_entity_id', $identifier);
+      $result = $query->execute();
+
+      if (isset($result[$entity_type])) {
+        $entities = entity_load($entity_type, array_keys($result[$entity_type]));
+        return reset($entities);
+      }
+    }
+
+    return NULL;
+  }
+
+  /**
    * Get a ting identifier from a url.
    */
   public function getTingIdentifierFromUrl($url) {
