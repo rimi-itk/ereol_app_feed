@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ereol_app_feed\Helper;
+namespace Drupal\ereol_app_feeds\Helper;
 
 use EntityFieldQuery;
 

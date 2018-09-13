@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ereol_app_feed\Helper;
+namespace Drupal\ereol_app_feeds\Helper;
 
 use EntityFieldQuery;
 
@@ -49,7 +49,7 @@ class ParagraphHelper {
   /**
    * The node helper.
    *
-   * @var \Drupal\ereol_app_feed\Helper\NodeHelper
+   * @var \Drupal\ereol_app_feeds\Helper\NodeHelper
    */
   protected $nodeHelper;
 

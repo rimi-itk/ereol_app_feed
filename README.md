@@ -4,8 +4,8 @@ This module exposes e-reolen content as json data.
 
 ## Installation
 
-Install the `ereol_app_feed` module and go to
-[/admin/config/ereolen/ereol_app_feed](/admin/config/ereolen/ereol_app_feed)
+Install the `ereol_app_feeds` module and go to
+[/admin/config/ereolen/ereol_app_feeds](/admin/config/ereolen/ereol_app_feeds)
 and choose “Front pages”.
 
 ## Endpoints

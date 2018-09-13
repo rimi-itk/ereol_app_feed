@@ -2,46 +2,46 @@
 
 /**
  * @file
- * Module file for ereol_app_feed.
+ * Module file for ereol_app_feeds.
  */
 
-use Drupal\ereol_app_feed\Controller\FrontpageController;
-use Drupal\ereol_app_feed\Controller\ParagraphsController;
-use Drupal\ereol_app_feed\Helper\FrontPageHelper;
-use Drupal\ereol_app_feed\Helper\ParagraphHelper;
+use Drupal\ereol_app_feeds\Controller\FrontpageController;
+use Drupal\ereol_app_feeds\Controller\ParagraphsController;
+use Drupal\ereol_app_feeds\Helper\FrontPageHelper;
+use Drupal\ereol_app_feeds\Helper\ParagraphHelper;
 
 /**
  * Implements hook_menu().
  */
-function ereol_app_feed_menu() {
-  $items['admin/config/ereolen/ereol_app_feed'] = [
+function ereol_app_feeds_menu() {
+  $items['admin/config/ereolen/ereol_app_feeds'] = [
     'title' => 'App feed settings',
     'description' => 'Settings for the app feed',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ereol_app_feed_admin'],
+    'page arguments' => ['ereol_app_feeds_admin'],
     'access arguments' => ['administer site configuration'],
     'type' => MENU_NORMAL_ITEM,
   ];
 
   $items['app/feed/%'] = [
-    'page callback' => 'ereol_app_feed_paragraphs',
+    'page callback' => 'ereol_app_feeds_paragraphs',
     'page arguments' => [2],
     'access arguments' => ['access content'],
   ];
 
   $items['app/feed/forsidefeed.json'] = [
-    'page callback' => 'ereol_app_feed_frontpage',
+    'page callback' => 'ereol_app_feeds_frontpage',
     'access arguments' => ['access content'],
   ];
 
   $items['app/feed/temafeed.json'] = [
-    'page callback' => 'ereol_app_feed_paragraphs',
+    'page callback' => 'ereol_app_feeds_paragraphs',
     'page arguments' => [ParagraphHelper::PARAGRAPH_ALIAS_THEME],
     'access arguments' => ['access content'],
   ];
 
   $items['app/feed/kategorifeed.json'] = [
-    'page callback' => 'ereol_app_feed_categories',
+    'page callback' => 'ereol_app_feeds_categories',
     'access arguments' => ['access content'],
   ];
 
@@ -51,7 +51,7 @@ function ereol_app_feed_menu() {
 /**
  * Admin page.
  */
-function ereol_app_feed_admin() {
+function ereol_app_feeds_admin() {
   $form = [];
 
   $options = [];
@@ -70,7 +70,7 @@ function ereol_app_feed_admin() {
     }, $nodes));
   }
 
-  $form['ereol_app_feed_frontpage_ids'] = [
+  $form['ereol_app_feeds_frontpage_ids'] = [
     '#type' => 'checkboxes',
     '#title' => t('Front pages'),
     '#default_value' => FrontPageHelper::getFrontPageIds(),
@@ -86,7 +86,7 @@ function ereol_app_feed_admin() {
 /**
  * Frontpage.
  */
-function ereol_app_feed_frontpage() {
+function ereol_app_feeds_frontpage() {
   $controller = new FrontpageController();
   $controller->index();
 }
@@ -94,14 +94,14 @@ function ereol_app_feed_frontpage() {
 /**
  * Categories.
  */
-function ereol_app_feed_categories() {
+function ereol_app_feeds_categories() {
   header('Content-type: text/plain'); echo var_export(NULL, TRUE); die(__FILE__ . ':' . __LINE__ . ':' . __METHOD__);
 }
 
 /**
  * Paragraphs.
  */
-function ereol_app_feed_paragraphs($type) {
+function ereol_app_feeds_paragraphs($type) {
   $controller = new ParagraphsController();
   $controller->index($type);
 }

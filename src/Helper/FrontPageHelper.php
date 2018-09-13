@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\ereol_app_feed\Helper;
+namespace Drupal\ereol_app_feeds\Helper;
 
 /**
  * Frontpage helper.
@@ -14,7 +14,7 @@ class FrontPageHelper extends ParagraphHelper {
    * Load only paragraphs on "inspiration" pages.
    */
   public static function getFrontPageIds() {
-    return variable_get('ereol_app_feed_frontpage_ids', []);
+    return variable_get('ereol_app_feeds_frontpage_ids', []);
   }
 
   /**
