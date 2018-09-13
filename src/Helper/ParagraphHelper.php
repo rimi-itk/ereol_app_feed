@@ -360,7 +360,7 @@ class ParagraphHelper {
   /**
    * Get editor data.
    */
-  protected function getEditor(\ParagraphsItemEntity $paragraph) {
+  public function getEditor(\ParagraphsItemEntity $paragraph) {
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
@@ -406,7 +406,7 @@ class ParagraphHelper {
    * @return array
    *   The data.
    */
-  protected function getVideoList(\ParagraphsItemEntity $paragraph) {
+  public function getVideoList(\ParagraphsItemEntity $paragraph) {
     $subParagraphIds = $this->nodeHelper->getFieldValue($paragraph, 'field_spotlight_primary', 'value', TRUE);
     $subParagraphs = $this->getParagraphs(ParagraphHelper::PARAGRAPH_VIDEO, $subParagraphIds);
     $list = array_values(array_map(function (\ParagraphsItemEntity $subParagraph) {

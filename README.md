@@ -1,4 +1,4 @@
-# E-reolen app feed
+# E-reolen app feeds
 
 This module exposes e-reolen content as json data.
 

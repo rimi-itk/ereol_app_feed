@@ -1,11 +1,13 @@
 <?php
 
-namespace Drupal\ereol_app_feeds\Helper;
+namespace Drupal\ereol_app_feeds\Feed;
+
+use Drupal\ereol_app_feeds\Helper\ParagraphHelper;
 
 /**
  * Frontpage helper.
  */
-class FrontPageHelper extends ParagraphHelper {
+class FrontPageFeed extends AbstractFeed {
   const NODE_TYPE_INSPIRATION = 'inspiration';
 
   /**
@@ -20,9 +22,9 @@ class FrontPageHelper extends ParagraphHelper {
   /**
    * Get frontpage data.
    */
-  public function getFrontpageData() {
+  public function getData() {
     $frontPageIds = self::getFrontPageIds();
-    $paragraphIds = $this->getParagraphIds($frontPageIds, self::NODE_TYPE_INSPIRATION, TRUE);
+    $paragraphIds = $this->paragraphHelper->getParagraphIds($frontPageIds, self::NODE_TYPE_INSPIRATION, TRUE);
 
     $data = [
       'carousels' => $this->getCarousels($paragraphIds),
@@ -41,28 +43,28 @@ class FrontPageHelper extends ParagraphHelper {
    * Get carousels.
    */
   private function getCarousels(array $paragraphIds) {
-    return $this->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_CAROUSEL, $paragraphIds);
+    return $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_CAROUSEL, $paragraphIds);
   }
 
   /**
    * Get themes.
    */
   private function getThemes(array $paragraphIds) {
-    return $this->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_THEME_LIST, $paragraphIds);
+    return $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_THEME_LIST, $paragraphIds);
   }
 
   /**
    * Get links.
    */
   private function getLinks(array $paragraphIds) {
-    return $this->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_LINK, $paragraphIds);
+    return $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_LINK, $paragraphIds);
   }
 
   /**
    * Get reviews.
    */
   private function getReviews(array $paragraphIds) {
-    return $this->getParagraphsData(ParagraphHelper::PARAGRAPH_REVIEW, $paragraphIds);
+    return $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_REVIEW, $paragraphIds);
   }
 
   /**
@@ -71,10 +73,10 @@ class FrontPageHelper extends ParagraphHelper {
   protected function getEditors(array $paragraphIds) {
     $data = [];
 
-    $paragraphs = $this->getParagraphs(ParagraphHelper::PARAGRAPH_SPOTLIGHT_BOX, $paragraphIds);
+    $paragraphs = $this->paragraphHelper->getParagraphs(ParagraphHelper::PARAGRAPH_SPOTLIGHT_BOX, $paragraphIds);
 
     foreach ($paragraphs as $paragraph) {
-      $data[] = $this->getEditor($paragraph);
+      $data[] = $this->paragraphHelper->getEditor($paragraph);
     }
 
     return $data;
@@ -86,10 +88,10 @@ class FrontPageHelper extends ParagraphHelper {
   private function getVideos(array $paragraphIds) {
     // Wrap all videos in a fake list element.
     $list = [];
-    $paragraphs = $this->getParagraphs(ParagraphHelper::PARAGRAPH_SPOTLIGHT_BOX, $paragraphIds);
+    $paragraphs = $this->paragraphHelper->getParagraphs(ParagraphHelper::PARAGRAPH_SPOTLIGHT_BOX, $paragraphIds);
 
     foreach ($paragraphs as $paragraph) {
-      $item = $this->getVideoList($paragraph);
+      $item = $this->paragraphHelper->getVideoList($paragraph);
       if (!empty($item)) {
         $list[] = $item;
       }
@@ -108,7 +110,7 @@ class FrontPageHelper extends ParagraphHelper {
    */
   private function getAudios(array $paragraphIds) {
     // Wrap all videos audio samples in a fake list element.
-    $list = $this->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_AUDIO, $paragraphIds);
+    $list = $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_AUDIO, $paragraphIds);
 
     return [
       'guid' => ParagraphHelper::VALUE_NONE,
