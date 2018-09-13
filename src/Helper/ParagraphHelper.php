@@ -417,6 +417,7 @@ class ParagraphHelper {
         'guid' => $this->getGuid($subParagraph),
         'type' => $this->getType($subParagraph),
         'title' => $video->title,
+        // @TODO: "Image" (capital i)?
         'Image' => self::VALUE_NONE,
         'source' => self::VALUE_NONE,
         'url' => $this->nodeHelper->getUrl($this->nodeHelper->getFieldValue($video, 'field_video', 'uri')),

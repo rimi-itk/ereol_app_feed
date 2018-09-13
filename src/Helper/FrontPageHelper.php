@@ -25,12 +25,12 @@ class FrontPageHelper extends ParagraphHelper {
     $paragraphIds = $this->getParagraphIds($frontPageIds, self::NODE_TYPE_INSPIRATION, TRUE);
 
     $data = [
-      // 'carousels' => $this->getCarousels($paragraphIds),
-      // 'themes' => $this->getThemes($paragraphIds),
-      // 'links' => $this->getLinks($paragraphIds),
-      // 'reviews' => $this->getReviews($paragraphIds),
-      // 'editor' => $this->getEditors($paragraphIds),
-      // 'videos' => $this->getVideos($paragraphIds),
+      'carousels' => $this->getCarousels($paragraphIds),
+      'themes' => $this->getThemes($paragraphIds),
+      'links' => $this->getLinks($paragraphIds),
+      'reviews' => $this->getReviews($paragraphIds),
+      'editor' => $this->getEditors($paragraphIds),
+      'videos' => $this->getVideos($paragraphIds),
       'audio' => $this->getAudios($paragraphIds),
     ];
 
