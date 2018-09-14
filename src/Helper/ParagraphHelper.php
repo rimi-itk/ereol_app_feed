@@ -190,7 +190,7 @@ class ParagraphHelper {
       return $paragraphs;
     }
 
-    return NULL;
+    return [];
   }
 
   /**
@@ -198,21 +198,17 @@ class ParagraphHelper {
    */
   public function getParagraphsData($type, array $paragraphIds) {
     $paragraphs = $this->getParagraphs($type, $paragraphIds);
-    if (NULL !== $paragraphs) {
-      $data = array_values(array_map([$this, 'getParagraphData'], $paragraphs));
+    $data = array_values(array_map([$this, 'getParagraphData'], $paragraphs));
 
-      // Make sure that all items are numeric arrays.
-      foreach ($data as &$datum) {
-        if ($this->isAssoc($datum)) {
-          $datum = [$datum];
-        }
+    // Make sure that all items are numeric arrays.
+    foreach ($data as &$datum) {
+      if ($this->isAssoc($datum)) {
+        $datum = [$datum];
       }
-
-      // Flatten the data.
-      return array_merge(...$data);
     }
 
-    return NULL;
+    // Flatten the data.
+    return empty($data) ? [] : array_merge(...$data);
   }
 
   /**
@@ -295,7 +291,7 @@ class ParagraphHelper {
   }
 
   /**
-   * Get theme list.
+   * Get list of all nodes referenced from af theme paragraph.
    */
   private function getThemeList(\ParagraphsItemEntity $paragraph) {
     $items = $this->nodeHelper->loadReferences($paragraph, 'field_picked_articles');
@@ -569,6 +565,9 @@ class ParagraphHelper {
 
       case 'theme':
         return self::PARAGRAPH_ALIAS_THEME;
+
+      case 'theme_list':
+        return self::PARAGRAPH_ALIAS_THEME_LIST;
 
       case 'video':
         return self::PARAGRAPH_VIDEO;

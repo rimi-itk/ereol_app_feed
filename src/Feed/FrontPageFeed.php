@@ -16,7 +16,7 @@ class FrontPageFeed extends AbstractFeed {
    * Load only paragraphs on "inspiration" pages.
    */
   public static function getFrontPageIds() {
-    return variable_get('ereol_app_feeds_frontpage_ids', []);
+    return array_filter(array_values(variable_get('ereol_app_feeds_frontpage_ids', [])));
   }
 
   /**

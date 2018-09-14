@@ -16,7 +16,18 @@ class ParagraphsFeed extends AbstractFeed {
     $helper = new ParagraphHelper();
     $type = $helper->getParagraphType($type);
     $ids = $helper->getParagraphIds($nids);
-    return $helper->getParagraphsData($type, $ids);
+
+    $data = $helper->getParagraphsData($type, $ids);
+
+    // HACK!
+    if (ParagraphHelper::PARAGRAPH_ALIAS_THEME_LIST === $type) {
+      $lists = array_column(array_filter($data, function (array $item) {
+        return isset($item['list']);
+      }), 'list');
+      $data = array_merge(...$lists);
+    }
+
+    return $data;
   }
 
 }
