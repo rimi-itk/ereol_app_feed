@@ -439,9 +439,9 @@ class ParagraphHelper {
           'title' => $ting->getTitle(),
           'url' => $relation ? $relation->getURI() : self::VALUE_NONE,
           'metadata' => [
-            'length' => self::VALUE_NONE,
-            'filesize' => self::VALUE_NONE,
-            'format' => self::VALUE_NONE,
+            'length' => NULL,
+            'filesize' => NULL,
+            'format' => NULL,
           ],
         ];
       }

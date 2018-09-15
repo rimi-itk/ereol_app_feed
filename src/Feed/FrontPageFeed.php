@@ -96,12 +96,17 @@ class FrontPageFeed extends AbstractFeed {
         $list[] = $item;
       }
     }
+    if (count($list) > 0) {
+      $list = array_merge(...$list);
+    }
 
     return [
-      'guid' => ParagraphHelper::VALUE_NONE,
-      'type' => 'video_list',
-      'view' => ParagraphHelper::VIEW_DOTTED,
-      'list' => $list,
+      [
+        'guid' => ParagraphHelper::VALUE_NONE,
+        'type' => 'video_list',
+        'view' => ParagraphHelper::VIEW_DOTTED,
+        'list' => $list,
+      ],
     ];
   }
 
@@ -113,10 +118,12 @@ class FrontPageFeed extends AbstractFeed {
     $list = $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_AUDIO, $paragraphIds);
 
     return [
-      'guid' => ParagraphHelper::VALUE_NONE,
-      'type' => 'audio_sample_list',
-      'view' => ParagraphHelper::VIEW_DOTTED,
-      'list' => $list,
+      [
+        'guid' => ParagraphHelper::VALUE_NONE,
+        'type' => 'audio_sample_list',
+        'view' => ParagraphHelper::VIEW_DOTTED,
+        'list' => $list,
+      ],
     ];
   }
 
