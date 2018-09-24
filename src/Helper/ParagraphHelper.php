@@ -268,7 +268,7 @@ class ParagraphHelper {
         $data[] = [
           'guid' => $this->getGuid($paragraph, $index),
           'type' => $this->getType($paragraph),
-          'title' => $value['title'],
+          'title' => $this->getTitle($value['title']),
           'view' => $this->getView($paragraph),
           'query' => $value['search'],
         ];
@@ -310,7 +310,7 @@ class ParagraphHelper {
     return [
       'guid' => $node->nid,
       'type' => 'theme',
-      'title' => $node->title,
+      'title' => $this->getTitle($node->title),
       'view' => $this->nodeHelper->getFieldValue($node, 'field_image_teaser', 'value') ? 'image' : 'covers',
       'image' => $this->nodeHelper->getImage($node->field_ding_news_list_image),
       'body' => $this->nodeHelper->getBody($node),
@@ -325,8 +325,8 @@ class ParagraphHelper {
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
-      'title' => $this->nodeHelper->getFieldValue($paragraph, 'field_link', 'title'),
       'url' => $this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url'),
+      'title' => $this->getTitle($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'title')),
       'color' => ltrim('#', $this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb')),
       'subtitle' => self::VALUE_NONE,
       'button_text' => self::VALUE_NONE,
@@ -375,7 +375,7 @@ class ParagraphHelper {
       return [
         'guid' => $this->getGuid($subParagraph),
         'type' => 'editor_recommends',
-        'title' => $this->nodeHelper->getTextFieldValue($subParagraph, 'field_rec_title'),
+        'title' => $this->getTitle($this->nodeHelper->getTextFieldValue($subParagraph, 'field_rec_title')),
         'identifier' => $this->nodeHelper->getTingIdentifierFromUrl($this->nodeHelper->getTextFieldValue($subParagraph, 'field_rec_material')),
       ];
     }, $subParagraphs));
@@ -410,7 +410,7 @@ class ParagraphHelper {
       return [
         'guid' => $this->getGuid($subParagraph),
         'type' => $this->getType($subParagraph),
-        'title' => $video->title,
+        'title' => $this->getTitle($video->title),
         'image' => self::VALUE_NONE,
         'source' => self::VALUE_NONE,
         'url' => $this->nodeHelper->getUrl($this->nodeHelper->getFieldValue($video, 'field_video', 'uri')),
@@ -436,7 +436,7 @@ class ParagraphHelper {
           'guid' => $this->getGuid($paragraph),
           'type' => $this->getType($paragraph),
           'identifier' => $identifier,
-          'title' => $ting->getTitle(),
+          'title' => $this->getTitle($ting->getTitle()),
           'url' => $relation ? $relation->getURI() : self::VALUE_NONE,
           'metadata' => [
             'length' => NULL,
@@ -574,6 +574,13 @@ class ParagraphHelper {
     }
 
     return $alias;
+  }
+
+  /**
+   * Decode entities in title.
+   */
+  private function getTitle($title) {
+    return html_entity_decode($title);
   }
 
   /**
