@@ -327,7 +327,7 @@ class ParagraphHelper {
       'type' => $this->getType($paragraph),
       'title' => $this->getTitle($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'title')),
       'url' => $this->getAbsoluteUrl($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url')),
-      'color' => ltrim('#', $this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb')),
+      'color' => ltrim($this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb'), '#'),
       'subtitle' => self::VALUE_NONE,
       'button_text' => self::VALUE_NONE,
     ];
