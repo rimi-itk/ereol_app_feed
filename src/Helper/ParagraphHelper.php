@@ -325,12 +325,19 @@ class ParagraphHelper {
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
-      'url' => $this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url'),
       'title' => $this->getTitle($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'title')),
+      'url' => $this->getAbsoluteUrl($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url')),
       'color' => ltrim('#', $this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb')),
       'subtitle' => self::VALUE_NONE,
       'button_text' => self::VALUE_NONE,
     ];
+  }
+
+  /**
+   * Get absolute url.
+   */
+  private function getAbsoluteUrl($url) {
+    return url($url, ['absolute' => TRUE]);
   }
 
   /**
