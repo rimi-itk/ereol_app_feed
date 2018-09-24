@@ -76,7 +76,9 @@ class FrontPageFeed extends AbstractFeed {
     $paragraphs = $this->paragraphHelper->getParagraphs(ParagraphHelper::PARAGRAPH_SPOTLIGHT_BOX, $paragraphIds);
 
     foreach ($paragraphs as $paragraph) {
-      $data[] = $this->paragraphHelper->getEditor($paragraph);
+      $item = $this->paragraphHelper->getEditor($paragraph);
+      $item['type'] = 'editor_recommends_list';
+      $data[] = $item;
     }
 
     return $data;
