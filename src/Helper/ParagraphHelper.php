@@ -299,6 +299,7 @@ class ParagraphHelper {
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
+      'view' => $this->getView($paragraph),
       'list' => array_values(array_map([$this, 'getThemeData'], $items)),
     ];
   }
