@@ -307,12 +307,14 @@ class ParagraphHelper {
    * Get theme data.
    */
   private function getThemeData($node) {
+    $view = $this->nodeHelper->getFieldValue($node, 'field_image_teaser', 'value') ? 'image' : 'covers';
+
     return [
       'guid' => $node->nid,
       'type' => 'theme',
       'title' => $this->getTitle($node->title),
-      'view' => $this->nodeHelper->getFieldValue($node, 'field_image_teaser', 'value') ? 'image' : 'covers',
-      'image' => $this->nodeHelper->getImage($node->field_ding_news_list_image),
+      'view' => $view,
+      'image' => 'covers' === $view ? self::VALUE_NONE : $this->nodeHelper->getImage($node->field_ding_news_list_image),
       'body' => $this->nodeHelper->getBody($node),
       'identifiers' => $this->nodeHelper->getTingIdentifiers($node, 'field_ding_news_materials'),
     ];
