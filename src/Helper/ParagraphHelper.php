@@ -522,10 +522,12 @@ class ParagraphHelper {
     $bundle = $paragraph->bundle();
 
     switch ($bundle) {
+      case self::PARAGRAPH_ALIAS_CAROUSEL:
+        return self::VIEW_SCROLL;
+
       case self::PARAGRAPH_ALIAS_THEME_LIST:
       case self::PARAGRAPH_AUTHOR_PORTRAIT:
       case self::PARAGRAPH_AUTHOR_QUOTE:
-      case self::PARAGRAPH_ALIAS_CAROUSEL:
       case self::PARAGRAPH_ALIAS_EDITOR:
       case self::PARAGRAPH_ALIAS_LINK:
       case self::PARAGRAPH_REVIEW:
