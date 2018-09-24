@@ -414,17 +414,29 @@ class ParagraphHelper {
     $subParagraphs = $this->getParagraphs(ParagraphHelper::PARAGRAPH_VIDEO, $subParagraphIds);
     $list = array_values(array_map(function (\ParagraphsItemEntity $subParagraph) {
       $video = $this->nodeHelper->loadReferences($subParagraph, 'field_video_node', FALSE);
+      $url = $this->nodeHelper->getFieldValue($video, 'field_video', 'uri');
       return [
         'guid' => $this->getGuid($subParagraph),
         'type' => $this->getType($subParagraph),
         'title' => $this->getTitle($video->title),
         'image' => self::VALUE_NONE,
-        'source' => self::VALUE_NONE,
-        'url' => $this->nodeHelper->getUrl($this->nodeHelper->getFieldValue($video, 'field_video', 'uri')),
+        'source' => $this->getSource($url),
+        'url' => $this->nodeHelper->getUrl($url),
       ];
     }, $subParagraphs));
 
     return $list;
+  }
+
+  /**
+   * Get video source.
+   */
+  private function getSource($url) {
+    if (preg_match('/^(?P<source>youtube):/', $url, $matches)) {
+      return $matches['source'];
+    }
+
+    return self::VALUE_NONE;
   }
 
   /**
