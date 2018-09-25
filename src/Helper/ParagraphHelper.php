@@ -359,8 +359,27 @@ class ParagraphHelper {
    * Get review list.
    */
   private function getReviewList(\ParagraphsItemEntity $paragraph) {
-    // @TODO: Get some random stuff from somewhere
-    return [];
+    $list = [];
+    if ($reviews = reol_review_get_random_reviews()) {
+      foreach ($reviews as $review) {
+        /** @var \TingEntity $ting */
+        $ting = $review->ting_entity;
+        $creator = $ting->getCreators() ? implode(', ', $ting->getCreators()) : self::VALUE_NONE;
+        $source = preg_match('@//litteratursiden.dk/@', $review->link) ? 'Litteratursiden' : $review->link;
+        $list[] = [
+          'guid' => $review->rrid,
+          'type' => 'review',
+          'identifier' => $review->ding_entity_id,
+          'title' => $review->title,
+          'creator' => $creator,
+          'description' => $review->description,
+          'source' => $source,
+          'url' => $review->link,
+        ];
+      }
+    }
+
+    return $list;
   }
 
   /**
