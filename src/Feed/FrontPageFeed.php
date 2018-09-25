@@ -77,8 +77,10 @@ class FrontPageFeed extends AbstractFeed {
 
     foreach ($paragraphs as $paragraph) {
       $item = $this->paragraphHelper->getEditor($paragraph);
-      $item['type'] = 'editor_recommends_list';
-      $data[] = $item;
+      if ($item['list']) {
+        $item['type'] = 'editor_recommends_list';
+        $data[] = $item;
+      }
     }
 
     return $data;
