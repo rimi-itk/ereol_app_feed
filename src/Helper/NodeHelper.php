@@ -95,7 +95,7 @@ class NodeHelper {
    * @param string $identifier
    *   Ting identifier.
    *
-   * @return mixed
+   * @return \TingEntity|null
    *   The ting object if any.
    */
   public function loadTingObject($identifier) {

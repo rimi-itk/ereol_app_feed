@@ -470,20 +470,21 @@ class ParagraphHelper {
    * Get audio data.
    */
   private function getAudio(\ParagraphsItemEntity $paragraph) {
-    $identifier = $this->nodeHelper->getTingIdentifierFromUrl(
-      $this->nodeHelper->getTextFieldValue($paragraph, 'field_preview_material')
-    );
+    $url = $this->nodeHelper->getTextFieldValue($paragraph, 'field_preview_material');
+    $identifier = $this->nodeHelper->getTingIdentifierFromUrl($url);
     if (NULL !== $identifier) {
       $ting = $this->nodeHelper->loadTingObject($identifier);
       if ($ting) {
         $relations = $ting->getRelations();
         $relation = reset($relations);
+        $audioUrl = ($relation && $relation->getURI()) ? $relation->getURI() : ($url ?: self::VALUE_NONE);
+
         return [
           'guid' => $this->getGuid($paragraph),
           'type' => $this->getType($paragraph),
           'identifier' => $identifier,
           'title' => $this->getTitle($ting->getTitle()),
-          'url' => $relation ? $relation->getURI() : self::VALUE_NONE,
+          'url' => $audioUrl,
           'metadata' => [
             'length' => NULL,
             'filesize' => NULL,
