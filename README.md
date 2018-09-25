@@ -10,10 +10,10 @@ and choose “Front pages”.
 
 ## Endpoints
 
-* [/app/feed/forsidefeed.json](/app/feed/forsidefeed.json)
+* [/app/feed/frontpage](/app/feed/frontpage)
 
   Frontpage feed.
 
-* [/app/feed/temafeed.json](/app/feed/temafeed.json)
+* [/app/feed/themes](/app/feed/themes)
 
   Theme feed.
