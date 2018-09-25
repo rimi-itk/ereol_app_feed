@@ -310,14 +310,28 @@ class ParagraphHelper {
   }
 
   /**
+   * Map from article content type to theme type.
+   *
+   * @var array
+   */
+  private static $themeTypes = [
+    'article' => 'article_theme',
+    'author_portrait' => 'author_theme',
+    'news' => 'news_theme',
+  ];
+
+  /**
    * Get theme data.
    */
   private function getThemeData($node) {
     $view = $this->nodeHelper->getFieldValue($node, 'field_image_teaser', 'value') ? 'image' : 'covers';
 
+    $contentType = $this->nodeHelper->getFieldValue($node, 'field_article_type', 'value');
+    $type = isset(self::$themeTypes[$contentType]) ? self::$themeTypes[$contentType] : 'theme';
+
     return [
       'guid' => $node->nid,
-      'type' => 'theme',
+      'type' => $type,
       'title' => $this->getTitle($node->title),
       'view' => $view,
       'image' => 'covers' === $view ? self::VALUE_NONE : $this->nodeHelper->getImage($node->field_ding_news_list_image),
