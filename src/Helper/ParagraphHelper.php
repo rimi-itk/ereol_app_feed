@@ -354,7 +354,7 @@ class ParagraphHelper {
   private function getReview(\ParagraphsItemEntity $paragraph) {
     return [
       'guid' => $this->getGuid($paragraph),
-      'type' => $this->getType($paragraph),
+      'type' => 'review_list',
       'view' => $this->getView($paragraph),
       'list' => $this->getReviewList($paragraph),
     ];
