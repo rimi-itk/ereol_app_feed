@@ -80,13 +80,28 @@ class NodeHelper {
     if (!isset($entity->{$field_name}[LANGUAGE_NONE])) {
       return NULL;
     }
-    $relations = ting_reference_get_relations('node', $entity);
-    $tings = entity_load('ting_object', array_keys($relations));
-    $identifiers = array_values(array_map(function ($ting) {
-      return $ting->ding_entity_id;
-    }, $tings));
 
-    return $identifiers;
+    $relations = $this->getFieldValue($entity, $field_name, 'value', TRUE);
+
+    $ids = array_map(function ($relation) {
+      if ((isset($relation->relation_type) && 'ting_reference' === $relation->relation_type)
+        && (isset($relation->endpoints[LANGUAGE_NONE][1]['entity_type']) && 'ting_object' === $relation->endpoints[LANGUAGE_NONE][1]['entity_type'])
+      ) {
+        return $relation->endpoints[LANGUAGE_NONE][1]['entity_id'];
+      }
+
+      return NULL;
+    }, $relations);
+
+    $result = db_query('SELECT o.ding_entity_id FROM {ting_object} o WHERE o.tid in (:ids)', [':ids' => $ids]);
+    $identifiers = $result->fetchCol();
+
+    // Filter out any non "basis" identifiers.
+    $identifiers = array_filter($identifiers, function ($identifier) {
+      return preg_match('/-basis:/', $identifier);
+    });
+
+    return array_values($identifiers);
   }
 
   /**
