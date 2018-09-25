@@ -4,3 +4,5 @@ core = 7.x
 package = eReolen
 version = 7.x-1.0
 dependencies[] = xautoload
+dependencies[] = reol_review
+dependencies[] = ting_reference
