@@ -25,6 +25,10 @@ class ParagraphsFeed extends AbstractFeed {
         return isset($item['list']);
       }), 'list');
       $data = array_merge(...$lists);
+      // Remove items with no identifiers.
+      $data = array_filter($data, function (array $item) {
+        return isset($item['identifiers']);
+      });
     }
 
     return $data;

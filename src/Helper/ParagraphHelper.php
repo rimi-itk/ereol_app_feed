@@ -296,11 +296,16 @@ class ParagraphHelper {
   private function getThemeList(\ParagraphsItemEntity $paragraph) {
     $items = $this->nodeHelper->loadReferences($paragraph, 'field_picked_articles');
 
+    $list = array_values(array_map([$this, 'getThemeData'], $items));
+    // Remove items with no identifiers.
+    $list = array_filter($list, function (array $item) {
+      return isset($item['identifiers']);
+    });
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
       'view' => $this->getView($paragraph),
-      'list' => array_values(array_map([$this, 'getThemeData'], $items)),
+      'list' => $list,
     ];
   }
 
