@@ -298,9 +298,9 @@ class ParagraphHelper {
 
     $list = array_values(array_map([$this, 'getThemeData'], $items));
     // Remove items with no identifiers.
-    $list = array_filter($list, function (array $item) {
+    $list = array_values(array_filter($list, function (array $item) {
       return isset($item['identifiers']);
-    });
+    }));
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),

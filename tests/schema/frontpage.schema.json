@@ -334,7 +334,7 @@
                                     "type": "string",
                                     "title": "The Description Schema",
                                     "default": "",
-                                    "pattern": "^(.*)$"
+                                    "pattern": "(.*)"
                                 },
                                 "source": {
                                     "$id": "#/properties/reviews/items/properties/list/items/properties/source",
