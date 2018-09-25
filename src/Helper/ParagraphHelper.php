@@ -337,7 +337,7 @@ class ParagraphHelper {
       'url' => $this->getAbsoluteUrl($this->nodeHelper->getFieldValue($paragraph, 'field_link', 'url')),
       'color' => ltrim($this->nodeHelper->getFieldValue($paragraph, 'field_link_color', 'rgb'), '#'),
       'subtitle' => self::VALUE_NONE,
-      'button_text' => self::VALUE_NONE,
+      'button_text' => variable_get('ereol_app_feeds_link_button_text', self::VALUE_NONE),
     ];
   }
 
