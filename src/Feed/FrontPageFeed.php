@@ -50,7 +50,11 @@ class FrontPageFeed extends AbstractFeed {
    * Get themes.
    */
   private function getThemes(array $paragraphIds) {
-    return $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_THEME_LIST, $paragraphIds);
+    $themes = $this->paragraphHelper->getParagraphsData(ParagraphHelper::PARAGRAPH_ALIAS_THEME_LIST, $paragraphIds);
+
+    return array_values(array_filter($themes, function ($theme) {
+      return isset($theme['list']) && $theme['list'];
+    }));
   }
 
   /**

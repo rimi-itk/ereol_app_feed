@@ -301,6 +301,9 @@ class ParagraphHelper {
     $list = array_values(array_filter($list, function (array $item) {
       return isset($item['identifiers']);
     }));
+
+    $list = array_slice($list, 0, (int) variable_get('ereol_app_feeds_theme_list_max_length', 6));
+
     return [
       'guid' => $this->getGuid($paragraph),
       'type' => $this->getType($paragraph),
