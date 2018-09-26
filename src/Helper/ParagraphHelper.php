@@ -3,6 +3,7 @@
 namespace Drupal\ereol_app_feeds\Helper;
 
 use EntityFieldQuery;
+use GuzzleHttp\Client;
 
 /**
  * Paragraphs helper.
@@ -492,9 +493,10 @@ class ParagraphHelper {
     if (NULL !== $identifier) {
       $ting = $this->nodeHelper->loadTingObject($identifier);
       if ($ting) {
-        $relations = $ting->getRelations();
-        $relation = reset($relations);
-        $audioUrl = ($relation && $relation->getURI()) ? $relation->getURI() : ($url ?: self::VALUE_NONE);
+        $isbn = $ting->getIsbn();
+        $isbn = reset($isbn);
+
+        list($audioUrl, $metadata) = $this->getAudioMetadata($isbn);
 
         return [
           'guid' => $this->getGuid($paragraph),
@@ -502,16 +504,59 @@ class ParagraphHelper {
           'identifier' => $identifier,
           'title' => $this->getTitle($ting->getTitle()),
           'url' => $audioUrl,
-          'metadata' => [
-            'length' => NULL,
-            'filesize' => NULL,
-            'format' => NULL,
-          ],
+          'metadata' => $metadata,
         ];
       }
     }
 
     return NULL;
+  }
+
+  /**
+   * Get audio metadata.
+   *
+   * Warning: this performs 2 http requests!
+   *
+   * @param string $isbn
+   *   The isbn.
+   *
+   * @return array
+   *   [audio url, metadata] or [null, null]
+   */
+  private function getAudioMetadata($isbn) {
+    $audioMetadata = &drupal_static(__METHOD__);
+
+    if (!isset($audioMetadata[$isbn])) {
+      try {
+        $metadata = [];
+
+        $metadataUrl = 'https://audio.api.streaming.pubhub.dk/v1/samples/' . $isbn;
+        $audioUrl = 'https://audio.api.streaming.pubhub.dk/Sample.ashx?isbn=' . $isbn;
+
+        $client = new Client();
+        $response = $client->get($metadataUrl);
+        $data = json_decode((string) $response->getBody(), TRUE);
+
+        $metadata['length'] = $data['duration'];
+
+        $response = $client->head($audioUrl);
+        $header = $response->getHeader('content-range');
+        $contentRange = reset($header);
+        if (preg_match('@bytes (?P<range_start>[0-9]+)-(?P<range_end>[0-9]+)/(?P<size>[0-9]+)@',
+                       $contentRange, $matches)) {
+          $metadata['size'] = (int) $matches['size'];
+        }
+
+        $header = $response->getHeader('content-type');
+        $metadata['format'] = reset($header);
+
+        $audioMetadata[$isbn] = [$audioUrl, $metadata];
+      }
+      catch (\Exception $exception) {
+      }
+    }
+
+    return isset($audioMetadata[$isbn]) ? $audioMetadata[$isbn] : [NULL, NULL];
   }
 
   /**
