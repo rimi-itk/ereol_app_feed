@@ -108,7 +108,7 @@ class FrontPageFeed extends AbstractFeed {
       $list = array_merge(...$list);
     }
 
-    return [
+    return empty($list) ? [] : [
       [
         'guid' => ParagraphHelper::VALUE_NONE,
         'type' => 'video_list',
