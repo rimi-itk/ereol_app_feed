@@ -334,7 +334,7 @@ class ParagraphHelper {
       'type' => $type,
       'title' => $this->getTitle($node->title),
       'view' => $view,
-      'image' => 'covers' === $view ? self::VALUE_NONE : $this->nodeHelper->getImage($node->field_ding_news_list_image),
+      'image' => $this->nodeHelper->getImage($node->field_ding_news_list_image),
       'body' => $this->nodeHelper->getBody($node),
       'identifiers' => $this->nodeHelper->getTingIdentifiers($node, 'field_ding_news_materials'),
     ];
